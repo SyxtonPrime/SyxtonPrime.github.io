@@ -1,16 +1,17 @@
 ---
 layout: page
 title: About me
-subtitle: Why you'd want to go on a date with me
+subtitle: Long walks on the Beach
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+I am a recent arrival to the US, coming to CalTech to pursue a PhD in mathematics.
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+I am currently interested in mathematical physics and more generally in applications of mathematics such as Machine Learning, Topological Data Analysis and more. 
 
-What else do you need?
+### How I came to be here
 
-### my history
+I was born on a sunny/stormy/cold/snowing night in Sydney in the middle of the 1990's.
 
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+I went to Alfred Deakin high school, named, as I'm sure you know, after Australia's second prime minister and completed year's 11 and 12 at Narrabundah College.
+
+I completed an undergraduate degree with honours from the Australian National University in 2017, majoring in mathematics and minoring physics and computer science. My honours thesis received a university medal.
