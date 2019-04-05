@@ -23,7 +23,7 @@ description: Overtime I will update this website more with more of my work.
 
 # List of links in the navigation bar
 navbar-links:
-  About Me: "I am a current PhD student in mathematics"
+  About Me: "aboutme"
   Resources:
     - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
     - Learn markdown: "http://www.markdowntutorial.com/"
