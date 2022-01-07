@@ -2,7 +2,7 @@
 layout: page
 title: Publications
 ---
-[Branches, quivers, and ideals for knot complements](https://arxiv.org/abs/2110.13768)
+[<center>Branches, quivers, and ideals for knot complements</center>](https://arxiv.org/abs/2110.13768)
 
 (with Tobias Ekholm, Sergei Gukov, Piotr Kucharski, Sunghyuk Park, Marko Stosic, Piotr Sulkowski)
 
