@@ -2,7 +2,7 @@
 layout: page
 title: Publications
 ---
-[->Branches, quivers, and ideals for knot complements<-](https://arxiv.org/abs/2110.13768)
+->[Branches, quivers, and ideals for knot complements](https://arxiv.org/abs/2110.13768)<-
 <p align=center> with Tobias Ekholm, Sergei Gukov, Piotr Kucharski, Sunghyuk Park, Marko Stosic, Piotr Sulkowski </p>
 
 We generalize the <strong>F<sub>K</sub></strong> invariant, i.e. <strong>Z</strong> for the complement of a knot <strong>K</strong> in the 3-sphere, the knots-quivers correspondence, and <strong>A</strong>-polynomials of knots, and find several interconnections between them. We associate an <strong>F<sub>K</sub></strong> invariant to any branch of the <strong>A</strong>-polynomial of <strong>K</strong> and we work out explicit expressions for several simple knots. We show that these <strong>F<sub>K</sub></strong> invariants can be written in the form of a quiver generating series, in analogy with the knots-quivers correspondence. We discuss various methods to obtain such quiver representations, among others using <strong>R</strong>-matrices. We generalize the quantum <strong>a</strong>-deformed <strong>A</strong>-polynomial to an ideal that contains the recursion relation in the group rank, i.e. in the parameter <strong>a</strong>, and describe its classical limit in terms of the Coulomb branch of a 3d-5d theory. We also provide <strong>t</strong>-deformed versions. Furthermore, we study how the quiver formulation for closed 3-manifolds obtained by surgery leads to the superpotential of 3d <strong>N=2</strong> theory <strong>T\[M3\]</strong> and to the data of the associated modular tensor category <strong>MTC\[M3\]</strong>. 
