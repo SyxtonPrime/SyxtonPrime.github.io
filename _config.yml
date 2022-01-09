@@ -26,12 +26,9 @@ navbar-links:
   About Me: "aboutme"
   Resources:
     - Modular Data Repository: "https://tqft.net/web/research/students/AngusGruen/Modular_Data/"
-    - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
-    - Learn markdown: "http://www.markdowntutorial.com/"
-    - GitHub Pages: "https://pages.github.com/"
+  CV: "Angus_Gruen_CV_2022"
   Publications: "publications"
   # Simulations: "simulations"
-  # Author's home: "http://deanattali.com"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
