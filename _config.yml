@@ -26,7 +26,7 @@ navbar-links:
   About Me: "aboutme"
   Resources:
     - Modular Data Repository: "https://tqft.net/web/research/students/AngusGruen/Modular_Data/"
-  CV: "Angus_Gruen_CV_2022"
+  CV: "CV"
   Publications: "publications"
   # Simulations: "simulations"
 
