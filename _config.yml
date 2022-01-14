@@ -24,8 +24,9 @@ description: Some mathematical musings.
 # List of links in the navigation bar
 navbar-links:
   About Me: "aboutme"
-  Resources:
-    - Modular Data Repository: "https://tqft.net/web/research/students/AngusGruen/Modular_Data/"
+  # Find a better way to link to the Modular Data Repository.
+  # Resources:
+  #   - Modular Data Repository: "https://tqft.net/web/research/students/AngusGruen/Modular_Data/"
   CV: "CV"
   Publications: "publications"
   Simulations:

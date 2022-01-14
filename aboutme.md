@@ -1,12 +1,11 @@
 ---
 layout: page
 title: About me
-subtitle: Long walks on the Beach
 ---
 
 I am a recent arrival to the US, coming to CalTech to pursue a PhD in mathematics.
 
-I am currently interested in mathematical physics and more generally in applications of mathematics such as Machine Learning, Topological Data Analysis and more. 
+My reasearch focuses primarily on quantum topology, which is an area of maths which applies techniques from physics to solve problems in low dimensional topology. In addition to my reasearch area I am generally interested in applications of mathematics such as Machine Learning, Topological Data Analysis and more. 
 
 ### How I came to be here
 
