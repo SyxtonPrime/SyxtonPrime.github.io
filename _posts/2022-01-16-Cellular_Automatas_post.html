@@ -1,0 +1,421 @@
+---
+layout: post
+title: Cellular Automatas
+published: false
+---
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- <title>Cellular Automatas</title> -->
+        <style>
+            .blue {
+                background-color: blue;
+            }
+
+            .canvas1 {
+                padding-left: 0;
+                padding-right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                width: 400px;
+            }
+
+            .canvas2 {
+                padding-left: 0;
+                padding-right: 0;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+                width: 800px;
+            }
+
+            .slidecontainer {
+              width: 100%;
+              text-align:center;
+              display: block;
+            }
+
+            .slider {
+              /*Keep the default appearence. So comment out the changes*/
+              /*-webkit-appearance: none;*/
+              width: 300px;
+              justify-content: center;
+              height: 10px;
+              background: #d3d3d3;
+              outline: none;
+              opacity: 0.7;
+              -webkit-transition: .2s;
+              transition: opacity .2s;
+            }
+
+            .slider:hover {
+              opacity: 1;
+            }
+
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- <h1>Cellular Automatas</h1> -->
+            <p> Cellular automatas are simple discrete simulations which turn up unusually frequently out in the real world. The basic idea was thought up in the 1940's by Stanislaw Ulam and John von Neumann but were popularized much later after computers became widespread. </p>
+
+            <p> A cellular automatas consists of two simple parts</p>
+            <ul>
+                <li> A grid of coloured cells</li>
+                <li> An update function where each cell acquires a new colour which depends only on the cell itself along with its neighbours. </li>
+            </ul>
+
+            <p> Let's look at a simple example. See the grid below, it consists of 30 cells in a row each coloured either white or red. We are going to apply a simple update rule called majority. For each cell we will look at the colour of itself and its 2 immediate neighbours. Then its new colour will be whichever colour is the most common. For example if the grid looked like red white red, the middle cell would become red and there are 2 reds and only 1 white among itself and it 2 neighbours. </p>
+
+            <div style="width:700px; margin-left:auto; margin-right:auto;">
+                <canvas id="simpleExample" width="700" height="33">
+                    Canvas not supported; please update your browser.
+                </canvas>
+            </div>
+
+            <div class="slidecontainer">
+                <button id="stepSimpleExample" type="submit">
+                    Step
+                </button>
+                <button id="randomSimpleExample" type="submit">
+                    Randomize
+                </button>
+                <button id="ruleSimpleExample" type="submit">
+                    Change Update Rule
+                </button>
+            </div>
+
+            <p> The step button advances the automata one step, updating every cell as described above. The randomize button gives each cell a random colour. Observe that in this case, after a couple of steps the automata freezes. Is there anything you notice about frozen states? How could you work out if you've reached the frozen stage without pressing the step button? </p>
+
+            <p> Another possible simple update rule would be to simply take on the colour of the cell to your right. What do you think this would look like? Click the button labelled Change Update Rule to find out.</p>
+
+            <p> In general, these sort of automata are usually displayed on a two dimensional grid where each step corresponds to moving down one level and the colours are usually white and black. Using the above automatas as examples we would get the following figures: </p>
+
+
+            <div style="width:848px; margin-left:auto; margin-right:auto;">
+                <canvas id="canvasMajority" width="400" height="300" margin="100" style="border: 1px solid darkred; margin-left: 10px; margin-right:10px;">
+                    Canvas not supported; please update your browser.
+                </canvas>
+
+                <canvas id="canvasLeftMover" width="400" height="300" style="border: 1px solid darkred; padding: -10px; margin-left: 10px; margin-right:10px;">
+                    Canvas not supported; please update your browser.
+                </canvas>
+            </div>
+
+            <div class="slidecontainer">
+                <button id="randomMajorityLeftMover" type="submit">
+                    Randomize
+                </button>
+            </div>
+
+            <p> So far these automata have not produced anything particularly interesting but we at least can generate some nice looking patterns with our left moving rule. Things will get much more interesting though when we start to play around with less human update rules. To make things a little more mathematical, as opposed to thinking of our cells as having one of 2 colours, we can think of assigning to each cell either a 0 or a 1. With this in mind, our previous 2 update rules can be expressed as:</p>
+
+            <table>
+                <tr>
+                    <th> Update Rule</th>
+                    <th> 111 </th>
+                    <th> 110 </th>
+                    <th> 101 </th>
+                    <th> 100 </th>
+                    <th> 011 </th>
+                    <th> 010 </th>
+                    <th> 001 </th>
+                    <th> 000 </th>
+                </tr>
+                <tr>
+                    <td> Majority </td>
+                    <td> 1 </td>
+                    <td> 1 </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                    <td> 0 </td>
+                    <td> 0 </td>
+                </tr>
+                <tr>
+                    <td> Left Mover </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                </tr>
+            </table>
+            <p> Reading the rows left to right, the majority update rule corresponds to the string 11101000 which in binary translates to 232. Similarly the left mover update rule gives 10101010<sub>2</sub> = 170<sub>10</sub>. Hence every possible update rule of this form will correspond to an integer between 0 and 255 (11111111<sub>2</sub>). This gives us an easy way to generate new update rules, all we need to do is pick a number between 0 and 255 and then convert it to binary. For example lets look at the update rule 30. As 30 = 16 + 8 + 4 + 2, we see 30<sub>10</sub> = 00011110<sub>2</sub> and so the update rule will be:</p>
+            <table>
+                <tr>
+                    <th> Update Rule</th>
+                    <th> 111 </th>
+                    <th> 110 </th>
+                    <th> 101 </th>
+                    <th> 100 </th>
+                    <th> 011 </th>
+                    <th> 010 </th>
+                    <th> 001 </th>
+                    <th> 000 </th>
+                </tr>
+                <tr>
+                    <td> 30 </td>
+                    <td> 0 </td>
+                    <td> 0 </td>
+                    <td> 0 </td>
+                    <td> 1 </td>
+                    <td> 1 </td>
+                    <td> 1 </td>
+                    <td> 1 </td>
+                    <td> 0 </td>
+                </tr>
+            </table>
+
+            <p> Let's have a look at what this gives us:</p>
+
+            <div style="width:500px; margin-left:auto; margin-right:auto;">
+                <canvas id="canvasRule30Simple" width="500" height="300" style="border: 1px solid darkred;">
+                    Canvas not supported; please update your browser.
+                </canvas>
+            </div>
+
+            <p> As you can see we are getting a much more intricate pattern. Let's see what happens if we shrink down the size of all our cells so we can get a better look at the larger structures. </p>
+
+            <div style="width:500px; margin-left:auto; margin-right:auto;">
+                <canvas id="canvasRule30Complex" width="500" height="300">
+                    Canvas not supported; please update your browser.
+                </canvas>
+            </div>
+
+            <p> Somewhat surprisingly we end up with an image that looks somewhat but not completely random and has a collection of interesting features such as the appearance of triangles. This is known as emergent behaviour as it was not at all clear from looking at the update rule that this would appear and this is a common feature of cellular automata. </p>
+
+            <p> This concept of emergence turns up throughout science in places where simple building blocks lead to highly complicated systems. For example, going from particle physics describing the interactions of elementary particles to trying to explain how molecules work in chemistry or cells in biology.</p>
+
+            <p> I'll leave you with a little gadget to let you try out some update rules by yourself. You can also pick what colours you want to display. It's currently set on rule 73, which gives something that looks a lot like a Persian rug. Some other rules I've found which give interesting patterns are 82, 86, 93, 107, 110, and 120 and there are many more so please try some numbers out more yourself and let me know if you find any patterns you particularly like.</p>
+
+            <div style="width:1000px; margin-left:auto; margin-right:auto;">
+                <canvas id="Canvas1d2" width="1000" height="500">
+                    Canvas not supported; please update your browser.
+                </canvas>
+            </div>
+
+            <div class="slidecontainer">
+                <label for="ruleChoice"> Rule Number: </label>
+                <input type="number" id="ruleChoiceInput" name="ruleChoice" 
+                        min="0" max ="255" value="73">
+
+                <button id="buttonRandomRule">
+                    Random Rule Number
+                </button>
+
+                <br>
+
+                <br>
+
+
+                <label for="colour1"> First Colour: </label>
+                <input type="color" id="colour1Input" name="colour1"
+                value="#000000">
+
+                <label for="colour1"> Second Colour: </label>
+                <input type="color" id="colour2Input" name="colour2"
+                value="#8B0000">
+
+                <br>
+
+                <button id="generateButton" type="submit" name="formBtn">
+                    Generate
+                </button>
+            </div>
+       
+    <script type="text/javascript" language="javascript">
+
+        var canvasSimple  = document.getElementById("simpleExample");
+        var contextSimple = canvasSimple.getContext("2d");
+
+        var canvasMajority = document.getElementById("canvasMajority");
+        var contextMajority = canvasMajority.getContext("2d");
+
+        var canvasLeftMover  = document.getElementById("canvasLeftMover");
+        var contextLeftMover = canvasLeftMover.getContext("2d");
+
+        var canvasRule30Simple  = document.getElementById("canvasRule30Simple");
+        var contextRule30Simple = canvasRule30Simple.getContext("2d");
+
+        var canvasRule30Complex  = document.getElementById("canvasRule30Complex");
+        var contextRule30Complex = canvasRule30Complex.getContext("2d");
+
+        var canvas1d2  = document.getElementById("Canvas1d2");
+        var context1d2 = canvas1d2.getContext("2d");
+
+        var padding = 5;
+
+        // We accept an integer between 0 and 255 (2^8 - 1).
+        var cellularAutomata = function(rule) {
+            this.ruleValue = rule;
+            var binString = rule.toString(2);
+            while (binString.length < 8) {
+                binString = "0" + binString;
+            };
+            this.ruleList = binString.split("").map( function(element) {
+                return parseInt(element);
+            });
+            this.ruleList.reverse()
+        };
+
+
+        // The update function is pretty simple. Look at the node to your left and right. This gives you a 3 digit binary number and find the relvent position in the rule list.
+        cellularAutomata.prototype.step = function(grid) {
+            var rules = this.ruleList
+            var gridsize = grid.length;
+            return grid.map(function(element, index, array) {
+                if ((rules[0] === 0) && isNaN(array[(index - 1 + gridsize)%gridsize]) && isNaN(array[index]) && isNaN(array[(index + 1)%gridsize]))
+                    {return NaN};
+                return rules[parseInt((array[(index - 1 + gridsize)%gridsize] || 0).toString(2) + (array[index] || 0) + (array[(index + 1)%gridsize] || 0), 2)];
+                });
+            };
+
+        var drawline = function(context, grid, padding, rownumber, cellSize, colours) {
+            for (let i = 0; i<grid.length; i++) {
+                context.beginPath();
+                if (isNaN(grid[i])) {
+                    context.fillStyle = "white";
+                } else{
+                    context.fillStyle = colours[grid[i]];
+                }  
+                context.fillRect(padding + cellSize*i, padding + cellSize*rownumber, cellSize, cellSize);
+            }
+        }
+
+        var CellularImage = function(canvas, context, padding, cellSize, ruleNumber, colours, initial_grid) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            let cell = new cellularAutomata(ruleNumber);
+
+            if (initial_grid) {
+                var grid = initial_grid
+            } else {
+                var grid = new Array(Math.floor((canvas.width - 2*padding)/cellSize)).fill(0).map(x => (Math.random() >= .5) ? 1 : 0);
+            }
+            for (let j = 0; j < Math.floor((canvas.height - 2*padding)/cellSize); j++) {
+                drawline(context, grid, padding, j, cellSize, colours);
+                grid = cell.step(grid);
+            }
+        }
+
+        var drawGrid = function(canvas, context, padding, squareSize, colour) {
+            context.beginPath();
+            for (var x = 0; x <= canvas.width - 2*padding; x += squareSize) {
+                context.moveTo(x + padding, padding);
+                context.lineTo(x + padding, canvas.height - padding);
+                }
+
+            for (var x = 0; x <= canvas.height - 2*padding; x += squareSize) {
+                context.moveTo(padding, x + padding);
+                context.lineTo(canvas.width - padding, x + padding);
+                }
+            context.strokeStyle = colour;
+            context.stroke();
+        }
+
+        {
+            let stepSimpleExample   = document.getElementById("stepSimpleExample");
+            let randomSimpleExample = document.getElementById("randomSimpleExample");
+            let ruleSimpleExample   = document.getElementById("ruleSimpleExample");
+            let cellSize = 23;
+            let grid = new Array(Math.floor((canvasSimple.width - 2*padding)/cellSize)).fill(0).map(x => (Math.random() >= .5) ? 1 : 0);
+            grid[Math.floor((canvasSimple.width - 2*padding)/(2*cellSize))] = 1;
+            let colours = ["white", "red"];
+            let gridColour = ["black"];
+
+            drawline(contextSimple, grid, padding, 0, cellSize, colours);
+
+            drawGrid(canvasSimple, contextSimple, padding, cellSize, gridColour);
+
+            let currentRule = 232;
+            let majority = new cellularAutomata(232);
+
+            ruleSimpleExample.onclick = function() {
+                if (currentRule === 232) {
+                    majority = new cellularAutomata(170);
+                    currentRule = 170;
+                } else {
+                    majority = new cellularAutomata(232);
+                    currentRule = 232;
+                }
+                
+            };
+
+            
+            stepSimpleExample.onclick = function() {
+                grid = majority.step(grid);
+                drawline(contextSimple, grid, padding, 0, cellSize, colours);
+                drawGrid(canvasSimple, contextSimple, padding, cellSize, gridColour);
+            };
+
+            randomSimpleExample.onclick = function() {
+                grid = new Array(Math.floor((canvasSimple.width - 2*padding)/cellSize)).fill(0).map(x => (Math.random() >= .5) ? 1 : 0);
+                grid[Math.floor((canvasSimple.width - 2*padding)/(2*cellSize))] = 1;
+                drawline(contextSimple, grid, padding, 0, cellSize, colours);
+                drawGrid(canvasSimple, contextSimple, padding, cellSize, gridColour);
+            };
+        }
+
+        var generateButton = document.getElementById("generateButton");
+        var ruleChoiceInput = document.getElementById("ruleChoiceInput");
+        var buttonRandomRule = document.getElementById("buttonRandomRule");
+        var colour1Input = document.getElementById("colour1Input");
+        var colour2Input = document.getElementById("colour2Input");
+
+        var cellSizeGeneral = 1;
+
+        {
+            let randomMajorityLeftMover = document.getElementById("randomMajorityLeftMover");
+            CellularImage(canvasMajority, contextMajority, 0, 20, 232, ["white", "black"], false)
+            CellularImage(canvasLeftMover, contextLeftMover, 0, 20, 170, ["white", "black"], false)
+
+            randomMajorityLeftMover.onclick = function() {
+                CellularImage(canvasMajority, contextMajority, 0, 20, 232, ["white", "black"], false)
+                CellularImage(canvasLeftMover, contextLeftMover, 0, 20, 170, ["white", "black"], false)
+            }
+        }
+
+        {
+            CellularImage(canvasRule30Simple, contextRule30Simple, 0, 10, 30, ["white", "black"], false)
+            CellularImage(canvasRule30Complex, contextRule30Complex, 0, 1, 30, ["white", "black"], false)
+        }
+        
+
+        
+
+        CellularImage(canvas1d2, context1d2, padding, cellSizeGeneral, parseInt(ruleChoiceInput.value, 10), [colour1Input.value, colour2Input.value], false)
+
+        buttonRandomRule.onclick = function() {
+            let rule = Math.round(255*Math.random());
+            ruleChoiceInput.value = rule;
+            CellularImage(canvas1d2, context1d2, padding, cellSizeGeneral, parseInt(ruleChoiceInput.value, 10), [colour1Input.value, colour2Input.value], false);
+        }
+
+        generateButton.onclick = function() {
+            CellularImage(canvas1d2, context1d2, padding, cellSizeGeneral, parseInt(ruleChoiceInput.value, 10), [colour1Input.value, colour2Input.value], false);
+        }
+
+        
+            
+    </script>   
+    </body>
+</html>
