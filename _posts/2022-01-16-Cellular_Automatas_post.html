@@ -63,6 +63,18 @@ excerpt: Cellular automatas are simple discrete simulations which turn up unusua
               width: 25%;
             }
 
+            .column {
+              float: left;
+              width: 20%;
+              padding: 5px;
+            }
+
+            .row::after {
+              content: "";
+              clear: both;
+              display: table;
+            }
+
             table {
                 font-family: arial, sans-serif;
                 border-collapse: collapse;
@@ -76,13 +88,48 @@ excerpt: Cellular automatas are simple discrete simulations which turn up unusua
                 padding: 8px;
                 text-align: center;
             }
+
+            figure figcaption {
+                text-align: center;
+            }
         </style>
     </head>
     <body>
         <!-- <h1>Cellular Automatas</h1> -->
-            <p> Cellular automatas are simple discrete simulations which turn up unusually frequently in the real world. The concept was thought up in the 1940's by Stanislaw Ulam and John von Neumann but was popularized much later after computers became widespread. These days cellular automatas appear as Ising models in physics as well as naturally in the patterns in some seashells. </p>
+            <p> Cellular automatas are simple discrete simulations which turn up unusually frequently in the real world. The concept was thought up in the 1940's by Stanislaw Ulam and John von Neumann but was popularized much later after computers became widespread. These days cellular automatas appear as Ising models in physics as well as naturally in the patterns in some seashells, they can also be used simply to make some elegent patterns. </p>
 
-            <img src="https://syxtonprime.github.io/img/Textile_cone.JPG" class="center">
+            <div class="row">
+                <div class="column">
+                    <figure>
+                        <img    src="https://syxtonprime.github.io/img/Textile_cone.JPG"
+                            style="width: 100%">
+                        <figcaption> Conus Textile Shell </figcaption>
+                    </figure>
+                    
+                </div>
+                <div class="column">
+                    <figure>
+                        <img    src="https://syxtonprime.github.io/img/Rule_30_black_red.png"
+                            style="width: 100%">
+                            <figcaption> Pattern Produced by Rule 30 Automata </figcaption>
+                    </figure>
+                    
+                </div>
+                <div class="column">
+                    <figure>
+                        <img    src="https://syxtonprime.github.io/img/Rule_73_Purple_Red.png"
+                            style="width: 100%">
+                            <figcaption> Pattern Produced by Rule 73 Automata </figcaption>
+                    </figure>
+                </div>
+                <div class="column">
+                    <figure>
+                        <img    src="https://syxtonprime.github.io/img/Rule_120_Orange_Blue.png"
+                            style="width: 100%">
+                            <figcaption> Pattern Produced by Rule 120 Automata </figcaption>
+                    </figure>
+                </div>
+            </div>
 
             <p> A cellular automatas consists of two simple parts</p>
             <ul>
