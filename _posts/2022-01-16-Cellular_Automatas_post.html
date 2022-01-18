@@ -2,7 +2,7 @@
 layout: post
 title: Cellular Automatas
 published: true
-excerpt: Cellular automatas are simple discrete simulations which turn up unusually frequently out in the real world. The basic idea was thought up in the 1940's by Stanislaw Ulam and John von Neumann but were popularized much later after computers became widespread.
+excerpt: Cellular automatas are simple discrete simulations which turn up unusually frequently in the real world. The concept was thought up in the 1940's by Stanislaw Ulam and John von Neumann but was popularized much later after computers became widespread.
 ---
 
 <!DOCTYPE html>
@@ -56,6 +56,13 @@ excerpt: Cellular automatas are simple discrete simulations which turn up unusua
               opacity: 1;
             }
 
+            .center {
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              width: 25%;
+            }
+
             table {
                 font-family: arial, sans-serif;
                 border-collapse: collapse;
@@ -75,7 +82,7 @@ excerpt: Cellular automatas are simple discrete simulations which turn up unusua
         <!-- <h1>Cellular Automatas</h1> -->
             <p> Cellular automatas are simple discrete simulations which turn up unusually frequently in the real world. The concept was thought up in the 1940's by Stanislaw Ulam and John von Neumann but was popularized much later after computers became widespread. These days cellular automatas appear as Ising models in physics as well as naturally in the patterns in some seashells. </p>
 
-            <img src="https://syxtonprime.github.io/img/Textile_cone">
+            <img src="https://syxtonprime.github.io/img/Textile_cone.JPG" class="center">
 
             <p> A cellular automatas consists of two simple parts</p>
             <ul>
@@ -98,8 +105,9 @@ excerpt: Cellular automatas are simple discrete simulations which turn up unusua
                 <button id="randomSimpleExample" type="submit">
                     Randomize
                 </button>
-                <button id="ruleSimpleExample" type="submit">
-                    Change Update Rule
+                <label for="updateRule"> Update Rule: </label>
+                <button id="ruleSimpleExample" type="submit" name="updateRule">
+                    Majority
                 </button>
             </div>
 
@@ -356,9 +364,11 @@ excerpt: Cellular automatas are simple discrete simulations which turn up unusua
                 if (currentRule === 232) {
                     majority = new cellularAutomata(170);
                     currentRule = 170;
+                    ruleSimpleExample.innerText = "Left Mover"
                 } else {
                     majority = new cellularAutomata(232);
                     currentRule = 232;
+                    ruleSimpleExample.innerText = "Majority"
                 }
                 
             };
