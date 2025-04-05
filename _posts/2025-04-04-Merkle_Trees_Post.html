@@ -1,0 +1,390 @@
+---
+layout: post
+title: Merkle Trees
+published: false
+image: /img/Rule_120_Orange_Blue.png
+excerpt: TODO
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Interactive Merkle Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #2E7D32;
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .tree-level {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .tree-node {
+            width: 80px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #4CAF50;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Each level has different spacing */
+        .level-0 {
+            margin-bottom: 60px;
+        }
+
+        .level-1 .tree-node {
+            margin: 0 180px;
+        }
+
+        .level-2 .tree-node {
+            margin: 0 80px;
+        }
+
+        .level-3 .tree-node {
+            margin: 0 20px;
+        }
+
+        /* Lines connecting nodes */
+        .line {
+            position: absolute;
+            height: 2px;
+            background-color: #999;
+            z-index: 1;
+            transform-origin: 0 0;
+        }
+
+        /* Editable leaf nodes */
+        .leaf-node {
+            background-color: white;
+            border: 2px solid #4CAF50;
+            cursor: pointer;
+        }
+
+        .leaf-node input {
+            width: 40px;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* Highlighting styles */
+        .tree-node.highlighted {
+            background-color: #FFC107;
+            box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
+            transform: scale(1.05);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .line.highlighted {
+            background-color: #FFC107;
+            height: 3px;
+            box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .line.faded {
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .tree-node.faded {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        /* Control button */
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <h1>Interactive Merkle Tree</h1>
+    <p>Edit the values at the bottom of the tree and watch how the changes propagate upward. Click on any leaf node to
+        see
+        its path to the root.</p>
+
+    <div class="tree-container">
+        <!-- Level 0 (Root) -->
+        <div class="tree-level level-0">
+            <div class="tree-node" id="root">0</div>
+        </div>
+
+        <!-- Level 1 -->
+        <div class="tree-level level-1">
+            <div class="tree-node" id="node-1-0">0</div>
+            <div class="tree-node" id="node-1-1">0</div>
+        </div>
+
+        <!-- Level 2 -->
+        <div class="tree-level level-2">
+            <div class="tree-node" id="node-2-0">0</div>
+            <div class="tree-node" id="node-2-1">0</div>
+            <div class="tree-node" id="node-2-2">0</div>
+            <div class="tree-node" id="node-2-3">0</div>
+        </div>
+
+        <!-- Level 3 (Leaf nodes) -->
+        <div class="tree-level level-3">
+            <div class="tree-node leaf-node" id="leaf-0-container">
+                <input type="number" id="leaf-0" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-1-container">
+                <input type="number" id="leaf-1" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-2-container">
+                <input type="number" id="leaf-2" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-3-container">
+                <input type="number" id="leaf-3" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-4-container">
+                <input type="number" id="leaf-4" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-5-container">
+                <input type="number" id="leaf-5" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-6-container">
+                <input type="number" id="leaf-6" value="0" min="0">
+            </div>
+            <div class="tree-node leaf-node" id="leaf-7-container">
+                <input type="number" id="leaf-7" value="0" min="0">
+            </div>
+        </div>
+    </div>
+
+    <button id="reset-highlight">Reset Highlighting</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Draw connecting lines
+            drawLines();
+
+            // Initialize with random values
+            randomizeValues();
+
+            // Add event listeners
+            setupEventListeners();
+        });
+
+        // Draw lines connecting parent and child nodes
+        function drawLines() {
+            // Connect root to level 1 nodes
+            connectNodes('root', 'node-1-0', 'line-root-0');
+            connectNodes('root', 'node-1-1', 'line-root-1');
+
+            // Connect level 1 to level 2 nodes
+            connectNodes('node-1-0', 'node-2-0', 'line-1-0');
+            connectNodes('node-1-0', 'node-2-1', 'line-1-1');
+            connectNodes('node-1-1', 'node-2-2', 'line-1-2');
+            connectNodes('node-1-1', 'node-2-3', 'line-1-3');
+
+            // Connect level 2 to level 3 (leaf) nodes
+            connectNodes('node-2-0', 'leaf-0-container', 'line-2-0');
+            connectNodes('node-2-0', 'leaf-1-container', 'line-2-1');
+            connectNodes('node-2-1', 'leaf-2-container', 'line-2-2');
+            connectNodes('node-2-1', 'leaf-3-container', 'line-2-3');
+            connectNodes('node-2-2', 'leaf-4-container', 'line-2-4');
+            connectNodes('node-2-2', 'leaf-5-container', 'line-2-5');
+            connectNodes('node-2-3', 'leaf-6-container', 'line-2-6');
+            connectNodes('node-2-3', 'leaf-7-container', 'line-2-7');
+        }
+
+        // Helper function to draw a line between two nodes
+        function connectNodes(parentId, childId, lineId) {
+            const parent = document.getElementById(parentId);
+            const child = document.getElementById(childId);
+
+            if (!parent || !child) return;
+
+            const parentRect = parent.getBoundingClientRect();
+            const childRect = child.getBoundingClientRect();
+
+            // Calculate positions relative to the viewport
+            const parentCenterX = parentRect.left + parentRect.width / 2;
+            const parentCenterY = parentRect.top + parentRect.height / 2;
+            const childCenterX = childRect.left + childRect.width / 2;
+            const childCenterY = childRect.top + childRect.height / 2;
+
+            // Calculate the length and angle of the line
+            const length = Math.sqrt(
+                Math.pow(childCenterX - parentCenterX, 2) +
+                Math.pow(childCenterY - parentCenterY, 2)
+            );
+
+            const angle = Math.atan2(
+                childCenterY - parentCenterY,
+                childCenterX - parentCenterX
+            );
+
+            // Create the line element
+            const line = document.createElement('div');
+            line.id = lineId;
+            line.className = 'line';
+            line.style.width = `${length}px`;
+            line.style.left = `${parentCenterX}px`;
+            line.style.top = `${parentCenterY}px`;
+            line.style.transform = `rotate(${angle}rad)`;
+
+            document.body.appendChild(line);
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Add input event listeners to leaf inputs
+            document.querySelectorAll('input[id^="leaf-"]').forEach(input => {
+                input.addEventListener('input', updateTree);
+            });
+
+            // Add click event listeners to leaf nodes for highlighting
+            document.querySelectorAll('.leaf-node').forEach((node, index) => {
+                node.addEventListener('click', function () {
+                    highlightPath(index);
+                });
+            });
+
+            // Reset highlighting button
+            document.getElementById('reset-highlight').addEventListener('click', resetHighlighting);
+
+            // Handle window resize to redraw lines
+            window.addEventListener('resize', function () {
+                // Remove existing lines
+                document.querySelectorAll('.line').forEach(line => line.remove());
+                // Redraw lines
+                setTimeout(drawLines, 100);
+            });
+        }
+
+        // Fill the tree with random values
+        function randomizeValues() {
+            document.querySelectorAll('input[id^="leaf-"]').forEach(input => {
+                input.value = Math.floor(Math.random() * 100) + 1; // Random number 1-100
+            });
+            updateTree();
+        }
+
+        // Update the tree values from leaves to root
+        function updateTree() {
+            // Update level 2 nodes (from leaves)
+            for (let i = 0; i < 4; i++) {
+                const leftChildValue = parseInt(document.getElementById(`leaf-${i * 2}`).value || 0);
+                const rightChildValue = parseInt(document.getElementById(`leaf-${i * 2 + 1}`).value || 0);
+                document.getElementById(`node-2-${i}`).textContent = (leftChildValue * rightChildValue) % 257;
+            }
+
+            // Update level 1 nodes
+            for (let i = 0; i < 2; i++) {
+                const leftChildValue = parseInt(document.getElementById(`node-2-${i * 2}`).textContent || 0);
+                const rightChildValue = parseInt(document.getElementById(`node-2-${i * 2 + 1}`).textContent || 0);
+                document.getElementById(`node-1-${i}`).textContent = (leftChildValue * rightChildValue) % 257;
+            }
+
+            // Update root node
+            const leftChildValue = parseInt(document.getElementById('node-1-0').textContent || 0);
+            const rightChildValue = parseInt(document.getElementById('node-1-1').textContent || 0);
+            document.getElementById('root').textContent = (leftChildValue * rightChildValue) % 257;
+        }
+
+        // Highlight path from a leaf to the root
+        function highlightPath(leafIndex) {
+            // Reset highlighting first
+            resetHighlighting();
+
+            // Fade all nodes and lines
+            document.querySelectorAll('.tree-node').forEach(node => {
+                node.classList.add('faded');
+            });
+
+            document.querySelectorAll('.line').forEach(line => {
+                line.classList.add('faded');
+            });
+
+            // Calculate the path indices
+            const level2Index = Math.floor(leafIndex / 2);
+            const level1Index = Math.floor(level2Index / 2);
+
+            // Highlight the nodes in the path
+            document.getElementById(`leaf-${leafIndex}-container`).classList.remove('faded');
+            document.getElementById(`leaf-${leafIndex}-container`).classList.add('highlighted');
+
+            document.getElementById(`node-2-${level2Index}`).classList.remove('faded');
+            document.getElementById(`node-2-${level2Index}`).classList.add('highlighted');
+
+            document.getElementById(`node-1-${level1Index}`).classList.remove('faded');
+            document.getElementById(`node-1-${level1Index}`).classList.add('highlighted');
+
+            document.getElementById('root').classList.remove('faded');
+            document.getElementById('root').classList.add('highlighted');
+
+            // Highlight the connecting lines
+            document.getElementById(`line-2-${leafIndex}`).classList.remove('faded');
+            document.getElementById(`line-2-${leafIndex}`).classList.add('highlighted');
+
+            document.getElementById(`line-1-${level2Index}`).classList.remove('faded');
+            document.getElementById(`line-1-${level2Index}`).classList.add('highlighted');
+
+            document.getElementById(`line-root-${level1Index}`).classList.remove('faded');
+            document.getElementById(`line-root-${level1Index}`).classList.add('highlighted');
+        }
+
+        // Reset all highlighting
+        function resetHighlighting() {
+            document.querySelectorAll('.tree-node, .line').forEach(element => {
+                element.classList.remove('faded', 'highlighted');
+            });
+        }
+    </script>
+</body>
+</html>
